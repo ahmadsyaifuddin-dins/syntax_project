@@ -68,7 +68,7 @@
                                             </a>
 
                                             <form action="{{ route('kategori.destroy', $item->id) }}" method="POST"
-                                                onsubmit="return confirm('YAKIN HAPUS? Jika kategori ini dihapus, SEMUA BUKU yang terkait dengan kategori ini juga akan terhapus dari database.');">
+                                                onsubmit="event.preventDefault(); RetroConfirm('YAKIN HAPUS? Jika kategori ini dihapus, SEMUA BUKU yang terkait dengan kategori ini juga akan terhapus dari database.', () => this.submit());">
                                                 @csrf
                                                 @method('DELETE')
                                                 <button type="submit" class="text-red-600 hover:text-red-900"

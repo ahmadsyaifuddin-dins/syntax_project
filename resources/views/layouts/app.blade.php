@@ -66,6 +66,7 @@
             </main>
         </div>
     </div>
+    <x-retro-modal />
 </body>
 
 </html>

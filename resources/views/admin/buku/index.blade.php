@@ -97,7 +97,7 @@
                                             </a>
 
                                             <form action="{{ route('buku.destroy', $item->id) }}" method="POST"
-                                                onsubmit="return confirm('Apakah Anda yakin ingin menghapus buku ini? File cover dan dokumen juga akan terhapus.');">
+                                                onsubmit="event.preventDefault(); RetroConfirm('Apakah Anda yakin ingin menghapus buku ini? File cover dan dokumen juga akan terhapus.', () => this.submit());">
                                                 @csrf
                                                 @method('DELETE')
                                                 <button type="submit" class="text-red-600 hover:text-red-900"

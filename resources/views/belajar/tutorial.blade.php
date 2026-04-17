@@ -29,9 +29,13 @@
                 <div class="w-full md:w-1/3 flex flex-col gap-3">
                     <template x-for="(item, index) in materi" :key="index">
                         <button @click="selectTab(index)"
-                            :class="{ 'bg-indigo-600 text-white translate-x-2 shadow-none': activeTab ===
-                                index, 'bg-white text-gray-800 hover:bg-gray-100 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]': activeTab !==
-                                    index, 'opacity-50 cursor-not-allowed': isDemo && item.is_locked_for_guest }"
+                            :class="{
+                                'bg-indigo-600 text-white translate-x-2 shadow-none': activeTab ===
+                                    index,
+                                'bg-white text-gray-800 hover:bg-gray-100 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]': activeTab !==
+                                    index,
+                                'opacity-50 cursor-not-allowed': isDemo && item.is_locked_for_guest
+                            }"
                             class="text-left font-black uppercase p-4 border-4 border-black transition-all flex justify-between items-center relative group">
 
                             <span>
@@ -86,7 +90,7 @@
                         <div
                             class="bg-black border-2 border-gray-700 rounded p-4 flex-1 relative overflow-hidden group">
                             <button
-                                @click="navigator.clipboard.writeText(materi[activeTab].kode); alert('Kode disalin!');"
+                                @click="navigator.clipboard.writeText(materi[activeTab].kode); RetroAlert('Kode berhasil disalin ke clipboard!');"
                                 class="absolute top-2 right-2 bg-gray-800 text-white px-2 py-1 text-[10px] font-bold border border-gray-600 hidden group-hover:block hover:bg-gray-700 transition">
                                 <i class="fa-solid fa-copy"></i> COPY
                             </button>
