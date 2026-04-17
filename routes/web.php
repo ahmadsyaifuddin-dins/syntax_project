@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+Route::get('/demo/{studi_kasus}', [BelajarController::class, 'demo'])->name('belajar.demo');
 
 // Middleware Authenticated (Harus Login)
 Route::middleware(['auth', 'verified'])->group(function () {

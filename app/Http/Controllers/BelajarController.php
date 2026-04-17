@@ -80,4 +80,19 @@ class BelajarController extends Controller
             // Nanti kita tambah step 3 (Create), 4 (Update), 5 (Delete)
         ];
     }
+
+    public function demo($studi_kasus)
+    {
+        // Ambil materi seperti biasa
+        $materi = $this->getMateriPerpustakaan();
+
+        // Buat objek progress dummy agar View tidak error
+        $progress = (object) [
+            'step_sekarang' => 1,
+            'status' => 'belum',
+        ];
+
+        // Gunakan view yang sama (workspace.blade.php)
+        return view('belajar.workspace', compact('progress', 'materi', 'studi_kasus'));
+    }
 }

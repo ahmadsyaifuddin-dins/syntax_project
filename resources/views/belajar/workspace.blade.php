@@ -1,5 +1,11 @@
 <x-app-layout>
     <x-slot name="header">
+        @guest
+            <div
+                class="mt-2 bg-red-500 text-white text-[10px] font-black uppercase px-2 py-1 border-2 border-black inline-block animate-pulse">
+                DEMO MODE: Progress tidak akan tersimpan!
+            </div>
+        @endguest
         <link rel="stylesheet"
             href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/tokyo-night-dark.min.css">
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/driver.js@1.0.1/dist/driver.css" />

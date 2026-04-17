@@ -79,6 +79,14 @@
             },
 
             simpanProgress(isFinish) {
+                // CEK APAKAH USER LOGIN (Gunakan variabel Blade untuk cek)
+                const isLoggedIn = {{ Auth::check() ? 'true' : 'false' }};
+
+                if (!isLoggedIn) {
+                    console.log("Demo Mode: Progress tidak disimpan ke database.");
+                    return; // Hentikan fungsi di sini jika Guest
+                }
+
                 fetch(`{{ url('/belajar/workspace') }}/${this.studi_kasus}/progress`, {
                     method: 'POST',
                     headers: {
