@@ -40,6 +40,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::middleware(['role:student,admin'])->prefix('belajar')->group(function () {
         Route::get('/dashboard', [BelajarController::class, 'index'])->name('belajar.index');
 
+        // Rute untuk Project Sandbox Multi-file
+        Route::get('/project/{studi_kasus}', [BelajarController::class, 'project'])->name('belajar.project');
+        Route::post('/project/{studi_kasus}/save', [BelajarController::class, 'saveProject'])->name('belajar.project.save');
+
         // 1. Rute statis di atas
         Route::get('/tutorial', [BelajarController::class, 'tutorial'])->name('belajar.tutorial');
 
@@ -48,6 +52,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::post('/workspace/{studi_kasus}/progress', [BelajarController::class, 'updateProgress'])->name('belajar.progress');
 
         Route::get('/progress', [BelajarController::class, 'progressSaya'])->name('belajar.progress.saya');
+
     });
 
 });

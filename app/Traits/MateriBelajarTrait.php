@@ -112,4 +112,57 @@ trait MateriBelajarTrait
             ],
         ];
     }
+
+    /**
+     * Kumpulan Materi & Step Project Workspace (Multi-file)
+     */
+    private function getProjectPerpustakaan()
+    {
+        return [
+            'koneksi.php' => [
+                'order' => 1,
+                'judul' => 'Koneksi Database',
+                'teks' => 'Langkah pertama adalah membuat file konfigurasi. File <code>koneksi.php</code> ini nantinya akan di-include ke semua file lain agar terhubung ke database MySQL.',
+                'instruksi' => 'Buat variabel $conn dan panggil fungsi mysqli_connect() ke database "perpustakaan" dengan user "root" dan password kosong ("").',
+                'kode_harapan' => '<?php $conn = mysqli_connect("localhost", "root", "", "perpustakaan"); ?>',
+                'hint' => "<?php\n\$conn = mysqli_connect(\"...\", \"...\", \"\", \"...\");\n?>",
+            ],
+
+            'index.php' => [
+                'order' => 2,
+                'judul' => 'Read: Menampilkan Data',
+                'teks' => 'File utama untuk menampilkan daftar buku. Di file ini kita harus memanggil <code>koneksi.php</code> lalu mengeksekusi query <code>SELECT</code>.',
+                'instruksi' => 'Tulis query untuk mengambil semua data dari tabel "buku" dan simpan ke variabel $query.',
+                'kode_harapan' => '$query = mysqli_query($conn, "SELECT * FROM buku");',
+                'hint' => "<!DOCTYPE html>\n<html>\n<head><title>Data Buku</title></head>\n<body>\n    <h2>Daftar Buku</h2>\n    <table border=\"1\">\n        <tr><th>Judul</th><th>Penulis</th></tr>\n        \n    </table>\n\n    <?php\n    include 'koneksi.php';\n    \$query = mysqli_query(\$conn, \"SELECT ... FROM ...\");\n    ?>\n</body>\n</html>",
+            ],
+
+            'tambah.php' => [
+                'order' => 3,
+                'judul' => 'Create: Menambah Data',
+                'teks' => 'File ini bertugas menangkap data dari form (via <code>$_POST</code>) dan menyimpannya ke tabel buku.',
+                'instruksi' => 'Eksekusi query INSERT INTO ke tabel "buku". Isi kolom judul, penulis, tahun_terbit, dan stok.',
+                'kode_harapan' => 'mysqli_query($conn, "INSERT INTO buku (judul, penulis, tahun_terbit, stok) VALUES (\'$judul\', \'$penulis\', \'$tahun\', \'$stok\')");',
+                'hint' => "<!DOCTYPE html>\n<html>\n<head><title>Tambah Buku</title></head>\n<body>\n    <h2>Tambah Buku</h2>\n    <form method=\"POST\">\n        <input type=\"text\" name=\"judul\" placeholder=\"Judul Buku\"><br>\n        <input type=\"text\" name=\"penulis\" placeholder=\"Penulis\"><br>\n        <button type=\"submit\">Simpan</button>\n    </form>\n\n    <?php\n    include 'koneksi.php';\n    // \$judul = \$_POST['judul']; ...\n    mysqli_query(\$conn, \"INSERT INTO ... (..., ...) VALUES ('...', '...')\");\n    ?>\n</body>\n</html>",
+            ],
+
+            'edit.php' => [
+                'order' => 4,
+                'judul' => 'Update: Mengubah Data',
+                'teks' => 'Hati-hati saat mengedit data! Pastikan kamu menyertakan klausa <code>WHERE</code> berdasarkan <code>$id</code> agar tidak merusak seluruh isi tabel.',
+                'instruksi' => 'Tulis query UPDATE untuk tabel "buku". Set stok = \'$stok_baru\' di mana id = \'$id\'.',
+                'kode_harapan' => 'mysqli_query($conn, "UPDATE buku SET stok=\'$stok_baru\' WHERE id=\'$id\'");',
+                'hint' => "<?php\ninclude 'koneksi.php';\nmysqli_query(\$conn, \"UPDATE ... SET ...='...' WHERE ...='...'\");\n?>",
+            ],
+
+            'hapus.php' => [
+                'order' => 5,
+                'judul' => 'Delete: Menghapus Data',
+                'teks' => 'File ini mengeksekusi penghapusan data berdasarkan ID yang dikirim melalui URL (metode <code>$_GET</code>).',
+                'instruksi' => 'Tulis query eksekusi DELETE FROM tabel "buku" berdasarkan parameter id = \'$id\'.',
+                'kode_harapan' => 'mysqli_query($conn, "DELETE FROM buku WHERE id=\'$id\'");',
+                'hint' => "<?php\ninclude 'koneksi.php';\nmysqli_query(\$conn, \"DELETE FROM ... WHERE ...='...'\");\n?>",
+            ],
+        ];
+    }
 }

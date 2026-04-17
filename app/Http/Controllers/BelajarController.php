@@ -165,4 +165,65 @@ class BelajarController extends Controller
 
         return view('belajar.progress', compact('user', 'leaderboard', 'myRank', 'badges', 'userAchievements'));
     }
+
+    /**
+     * Halaman Project Sandbox (Multi-file VS Code Clone)
+     */
+    public function project($studi_kasus)
+    {
+        $user = Auth::user();
+        $blueprint = $this->getProjectPerpustakaan();
+
+        // Ambil data project yang sudah dikerjakan user dari database
+        $savedProjects = DB::table('user_projects')
+            ->where('user_id', $user->id)
+            ->where('studi_kasus', $studi_kasus)
+            ->get()
+            ->keyBy('file_name');
+
+        $files = [];
+        $previousCompleted = true; // File urutan 1 (koneksi.php) selalu terbuka
+
+        // Gabungkan Master Blueprint dengan Data User
+        foreach ($blueprint as $fileName => $data) {
+            $saved = $savedProjects->get($fileName);
+            $content = $saved ? $saved->content : '';
+            $isCompleted = $saved ? (bool) $saved->is_completed : false;
+
+            $files[$fileName] = [
+                'order' => $data['order'],
+                'judul' => $data['judul'],
+                'teks' => $data['teks'],
+                'instruksi' => $data['instruksi'],
+                'kode_harapan' => $data['kode_harapan'],
+                'hint' => $data['hint'],
+                'content' => $content,
+                'is_completed' => $isCompleted,
+                'is_locked' => ! $previousCompleted, // Kunci jika file sebelumnya belum selesai
+            ];
+
+            // Status file ini menentukan apakah file selanjutnya terbuka atau terkunci
+            $previousCompleted = $isCompleted;
+        }
+
+        return view('belajar.project', compact('files', 'studi_kasus'));
+    }
+
+    /**
+     * Endpoint API Autosaver (Dipanggil via AJAX saat user ngetik)
+     */
+    public function saveProject(Request $request, $studi_kasus)
+    {
+        $user = Auth::user();
+        $fileName = $request->input('file_name');
+        $content = $request->input('content');
+        $isCompleted = $request->input('is_completed');
+
+        DB::table('user_projects')->updateOrInsert(
+            ['user_id' => $user->id, 'studi_kasus' => $studi_kasus, 'file_name' => $fileName],
+            ['content' => $content, 'is_completed' => $isCompleted, 'updated_at' => now()]
+        );
+
+        return response()->json(['success' => true]);
+    }
 }
