@@ -57,37 +57,62 @@
             </div>
 
             <div
-                class="w-full md:w-2/3 bg-gray-900 border-4 border-black shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] flex flex-col overflow-hidden id-kolom-kode h-[500px] md:h-full">
+                class="w-full md:w-2/3 bg-gray-900 border-4 border-black shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] flex flex-col overflow-hidden id-kolom-kode h-[65vh] md:h-full">
+
                 <div
-                    class="bg-black text-green-400 px-4 py-2 text-xs font-bold flex justify-between items-center border-b-4 border-black">
+                    class="bg-black text-green-400 px-4 py-2 text-xs font-bold font-mono flex justify-between items-center border-b-4 border-black">
                     <span class="flex items-center gap-2">
-                        <span class="w-3 h-3 rounded-full bg-red-500"></span>
-                        <span class="w-3 h-3 rounded-full bg-yellow-500"></span>
-                        <span class="w-3 h-3 rounded-full bg-green-500"></span>
+                        <span class="w-3 h-3 rounded-full bg-red-500 inline-block"></span>
+                        <span class="w-3 h-3 rounded-full bg-yellow-500 inline-block"></span>
+                        <span class="w-3 h-3 rounded-full bg-green-500 inline-block"></span>
                         <span class="ml-2 text-gray-300">index.php</span>
                     </span>
-                    <button @click="$store.workspace.mulaiTour()"
-                        class="bg-gray-800 text-white px-2 py-1 border-2 border-black hover:bg-gray-700 transition uppercase text-[10px]">HINT</button>
+                    <div class="flex gap-2">
+                        <button @click="$store.workspace.showHint()"
+                            class="bg-yellow-400 text-black px-2 py-1 font-black border-2 border-black hover:bg-yellow-300 transition active:translate-y-1">
+                            <i class="fa-solid fa-lightbulb mr-1"></i> USE HINT
+                        </button>
+                        <button @click="$store.workspace.mulaiTour()"
+                            class="bg-gray-800 text-white px-2 py-1 border border-gray-600 hover:bg-gray-700 transition">
+                            <i class="fa-solid fa-circle-question"></i>
+                        </button>
+                    </div>
                 </div>
 
-                <div class="flex-1 p-4 flex flex-col gap-4 relative overflow-hidden bg-[#1a1b26]">
+                <div class="flex-1 p-4 flex flex-col gap-3 relative overflow-hidden bg-[#1a1b26]">
+
                     <textarea x-model="$store.workspace.userCode"
                         @input="$store.workspace.checkCode(); updateHighlight($store.workspace.userCode, $refs.codeBlock)"
-                        class="w-full h-1/2 md:h-40 bg-[#24283b] text-indigo-300 font-mono text-sm border-4 border-black rounded p-4 focus:ring-0 focus:border-indigo-500 resize-none id-area-ketik shadow-inner"
+                        class="w-full h-1/3 md:h-32 bg-[#24283b] text-indigo-300 font-mono text-sm border-2 border-gray-700 rounded p-4 focus:ring-0 focus:border-indigo-500 resize-none id-area-ketik shadow-inner"
                         placeholder=">_ ketik kodemu di sini..."></textarea>
 
-                    <div class="flex-1 bg-black rounded border-4 border-black p-4 overflow-y-auto relative">
-                        <p class="text-[10px] text-green-500 mb-2 uppercase tracking-widest font-black">PREVIEW WINDOW:
+                    <div class="w-full border-2 border-dashed p-2 text-xs font-bold font-mono transition-colors"
+                        :class="{
+                            'bg-gray-800 border-gray-600 text-gray-400': $store.workspace.feedbackStatus === 'idle',
+                            'bg-red-900/50 border-red-500 text-red-400': $store.workspace.feedbackStatus === 'error',
+                            'bg-yellow-900/50 border-yellow-500 text-yellow-400': $store.workspace
+                                .feedbackStatus === 'warning',
+                            'bg-green-900/50 border-green-500 text-green-400': $store.workspace
+                                .feedbackStatus === 'success',
+                        }">
+                        <i class="fa-solid fa-robot mr-2"></i> <span x-text="$store.workspace.feedbackMsg"></span>
+                    </div>
+
+                    <div class="flex-1 bg-black rounded p-3 overflow-y-auto border-2 border-gray-800 relative">
+                        <p class="text-[10px] text-green-500 mb-1 uppercase tracking-widest font-bold">OUTPUT PREVIEW:
                         </p>
                         <pre><code class="language-php" x-ref="codeBlock" x-init="hljs.highlightElement($el)">{{ '<?php' }}</code></pre>
                     </div>
 
                     <div x-show="$store.workspace.isStepSuccess" style="display: none;"
-                        class="absolute inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-10 p-4">
+                        class="absolute inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center z-10">
                         <div
-                            class="bg-green-400 text-black px-8 py-4 border-4 border-black shadow-[8px_8px_0px_0px_rgba(255,255,255,1)] transform rotate-2 animate-bounce">
-                            <h2 class="text-xl md:text-2xl font-black uppercase tracking-widest text-center">CODE
-                                ACCEPTED!</h2>
+                            class="bg-green-400 text-black px-8 py-4 border-4 border-black shadow-[8px_8px_0px_0px_rgba(255,255,255,1)] transform rotate-2 animate-bounce flex flex-col items-center">
+                            <h2 class="text-2xl font-black uppercase tracking-widest text-center mb-2">
+                                <i class="fa-solid fa-star text-white drop-shadow-md mr-2"></i>
+                                CODE ACCEPTED!
+                            </h2>
+                            <p class="font-bold text-sm">Target berhasil dihancurkan.</p>
                         </div>
                     </div>
                 </div>
