@@ -46,6 +46,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
         // 2. Rute dinamis di bawah
         Route::get('/workspace/{studi_kasus}', [BelajarController::class, 'workspace'])->name('belajar.workspace');
         Route::post('/workspace/{studi_kasus}/progress', [BelajarController::class, 'updateProgress'])->name('belajar.progress');
+
+        Route::get('/progress', [BelajarController::class, 'progressSaya'])->name('belajar.progress.saya');
     });
 
 });

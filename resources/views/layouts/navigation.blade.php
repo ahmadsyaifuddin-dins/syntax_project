@@ -71,8 +71,8 @@
                     Mulai Simulasi
                 </a>
 
-                <a href="#"
-                    class="flex items-center gap-3 px-4 py-3 text-sm font-medium transition-colors rounded-lg text-gray-300 hover:bg-gray-800 hover:text-white">
+                <a href="{{ route('belajar.progress.saya') }}"
+                    class="flex items-center gap-3 px-4 py-3 text-sm font-medium transition-colors rounded-lg {{ request()->routeIs('belajar.progress.saya') ? 'bg-indigo-600 text-white' : 'text-gray-300 hover:bg-gray-800 hover:text-white' }}">
                     <i class="fa-solid fa-trophy w-5"></i>
                     Progress Saya
                 </a>
