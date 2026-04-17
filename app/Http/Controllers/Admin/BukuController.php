@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
+use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreBukuRequest;
 use App\Http\Requests\UpdateBukuRequest;
 use App\Models\Buku;
@@ -13,22 +14,22 @@ class BukuController extends Controller
     public function index()
     {
         // Ambil data buku beserta relasi kategorinya
-        $buku = Buku::with('kategori')->latest()->get();
+        $buku = Buku::with(['kategori', 'user'])->latest()->get();
 
-        return view('buku.index', compact('buku'));
+        return view('admin.buku.index', compact('buku'));
     }
 
     public function create()
     {
         $kategori = Kategori::all();
 
-        return view('buku.create', compact('kategori'));
+        return view('admin.buku.create', compact('kategori'));
     }
 
     public function store(StoreBukuRequest $request)
     {
         $data = $request->validated();
-
+        $data['user_id'] = auth()->id();
         // 1. Upload Cover Gambar (Old School Method ke public/uploads/images)
         if ($request->hasFile('cover_gambar')) {
             $file = $request->file('cover_gambar');
@@ -54,7 +55,7 @@ class BukuController extends Controller
     {
         $kategori = Kategori::all();
 
-        return view('buku.edit', compact('buku', 'kategori'));
+        return view('admin.buku.edit', compact('buku', 'kategori'));
     }
 
     public function update(UpdateBukuRequest $request, Buku $buku)
@@ -105,6 +106,6 @@ class BukuController extends Controller
 
         $buku->delete();
 
-        return redirect()->route('buku.index')->with('success', 'Data buku berhasil dihapus!');
+        return redirect()->route('admin.buku.index')->with('success', 'Data buku berhasil dihapus!');
     }
 }

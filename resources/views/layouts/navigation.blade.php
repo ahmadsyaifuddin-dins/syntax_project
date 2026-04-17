@@ -46,9 +46,15 @@
                     <i class="fa-solid fa-book w-5"></i>
                     Kelola Buku
                 </a>
+
+                <a href="{{ route('kategori.index') }}"
+                    class="flex items-center gap-3 px-4 py-3 text-sm font-medium transition-colors rounded-lg {{ request()->routeIs('kategori.*') ? 'bg-indigo-600 text-white' : 'text-gray-300 hover:bg-gray-800 hover:text-white' }}">
+                    <i class="fa-solid fa-tags w-5"></i>
+                    Kelola Kategori
+                </a>
             @endif
 
-            @if (Auth::user()->role === 'student')
+            @if (in_array(Auth::user()->role, ['student', 'admin']))
                 <div
                     class="pt-4 mt-4 text-xs font-semibold tracking-wider text-gray-500 uppercase border-t border-gray-700">
                     Modul Belajar</div>

@@ -1,8 +1,8 @@
 <?php
 
-use App\Http\Controllers\BukuController;
+use App\Http\Controllers\Admin\BukuController as AdminBukuController;
+use App\Http\Controllers\KategoriController;
 use App\Http\Controllers\ProfileController;
-// use App\Http\Controllers\KategoriController; // (Uncomment nanti kalau sudah dibuat)
 use Illuminate\Support\Facades\Route;
 
 // Halaman Landing Page (Public)
@@ -26,14 +26,14 @@ Route::middleware(['auth', 'verified'])->group(function () {
     // AREA ADMIN
     // ==========================================
     Route::middleware(['role:admin'])->prefix('admin')->group(function () {
-        Route::resource('buku', BukuController::class);
-        // Route::resource('kategori', KategoriController::class);
+        Route::resource('buku', AdminBukuController::class);
+        Route::resource('kategori', KategoriController::class);
     });
 
     // ==========================================
     // AREA STUDENT (PESERTA BELAJAR)
     // ==========================================
-    Route::middleware(['role:student'])->prefix('belajar')->group(function () {
+    Route::middleware(['role:student,admin'])->prefix('belajar')->group(function () {
         // Nanti kita isi dengan rute halaman interactive guide
         // Route::get('/studi-kasus', [BelajarController::class, 'index'])->name('belajar.index');
     });

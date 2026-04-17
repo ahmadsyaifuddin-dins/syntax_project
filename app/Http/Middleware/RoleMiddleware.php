@@ -9,9 +9,10 @@ use Symfony\Component\HttpFoundation\Response;
 
 class RoleMiddleware
 {
-    public function handle(Request $request, Closure $next, $role): Response
+    public function handle(Request $request, Closure $next, ...$roles): Response
     {
-        if (! Auth::check() || Auth::user()->role !== $role) {
+        // Cek apakah user login DAN rolenya ada di dalam array $roles
+        if (! Auth::check() || ! in_array(Auth::user()->role, $roles)) {
             abort(403, 'Akses Ditolak. Anda tidak memiliki izin ke halaman ini.');
         }
 
