@@ -1,100 +1,87 @@
-<nav x-data="{ open: false }" class="bg-white border-b border-gray-100">
-    <!-- Primary Navigation Menu -->
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="flex justify-between h-16">
-            <div class="flex">
-                <!-- Logo -->
-                <div class="shrink-0 flex items-center">
-                    <a href="{{ route('dashboard') }}">
-                        <x-application-logo class="block h-9 w-auto fill-current text-gray-800" />
-                    </a>
-                </div>
+<div x-show="sidebarOpen" x-transition:enter="transition-opacity ease-linear duration-300"
+    x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100"
+    x-transition:leave="transition-opacity ease-linear duration-300" x-transition:leave-start="opacity-100"
+    x-transition:leave-end="opacity-0" class="fixed inset-0 z-40 bg-gray-900/80 md:hidden" @click="sidebarOpen = false"
+    aria-hidden="true" style="display: none;"></div>
 
-                <!-- Navigation Links -->
-                <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                    <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
-                        {{ __('Dashboard') }}
-                    </x-nav-link>
-                </div>
-            </div>
+<nav :class="sidebarOpen ? 'translate-x-0' : '-translate-x-full'"
+    class="absolute z-50 flex flex-col w-64 h-screen px-4 py-8 overflow-y-auto bg-gray-900 border-r transition-transform duration-300 ease-in-out md:relative md:translate-x-0">
 
-            <!-- Settings Dropdown -->
-            <div class="hidden sm:flex sm:items-center sm:ms-6">
-                <x-dropdown align="right" width="48">
-                    <x-slot name="trigger">
-                        <button class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none transition ease-in-out duration-150">
-                            <div>{{ Auth::user()->name }}</div>
+    <div class="flex items-center justify-between mb-6 md:justify-center">
+        <a href="{{ route('dashboard') }}" class="flex items-center gap-2 text-white">
+            <i class="fa-solid fa-code text-indigo-500 text-3xl"></i>
+            <span class="text-2xl font-bold">Syntax<span class="text-indigo-400">Proj</span></span>
+        </a>
+        <button @click="sidebarOpen = false" class="md:hidden text-gray-400 hover:text-white">
+            <i class="fa-solid fa-xmark text-2xl"></i>
+        </button>
+    </div>
 
-                            <div class="ms-1">
-                                <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
-                                    <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
-                                </svg>
-                            </div>
-                        </button>
-                    </x-slot>
-
-                    <x-slot name="content">
-                        <x-dropdown-link :href="route('profile.edit')">
-                            {{ __('Profile') }}
-                        </x-dropdown-link>
-
-                        <!-- Authentication -->
-                        <form method="POST" action="{{ route('logout') }}">
-                            @csrf
-
-                            <x-dropdown-link :href="route('logout')"
-                                    onclick="event.preventDefault();
-                                                this.closest('form').submit();">
-                                {{ __('Log Out') }}
-                            </x-dropdown-link>
-                        </form>
-                    </x-slot>
-                </x-dropdown>
-            </div>
-
-            <!-- Hamburger -->
-            <div class="-me-2 flex items-center sm:hidden">
-                <button @click="open = ! open" class="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 focus:text-gray-500 transition duration-150 ease-in-out">
-                    <svg class="h-6 w-6" stroke="currentColor" fill="none" viewBox="0 0 24 24">
-                        <path :class="{'hidden': open, 'inline-flex': ! open }" class="inline-flex" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
-                        <path :class="{'hidden': ! open, 'inline-flex': open }" class="hidden" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-                    </svg>
-                </button>
-            </div>
+    <div class="flex items-center gap-3 px-4 py-3 mb-6 bg-gray-800 rounded-lg">
+        <div class="flex items-center justify-center w-10 h-10 text-white bg-indigo-600 rounded-full">
+            {{ substr(Auth::user()->name, 0, 1) }}
+        </div>
+        <div class="overflow-hidden">
+            <p class="text-sm font-medium text-white truncate">{{ Auth::user()->name }}</p>
+            <p class="text-xs text-gray-400 capitalize">{{ Auth::user()->role }}</p>
         </div>
     </div>
 
-    <!-- Responsive Navigation Menu -->
-    <div :class="{'block': open, 'hidden': ! open}" class="hidden sm:hidden">
-        <div class="pt-2 pb-3 space-y-1">
-            <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
-                {{ __('Dashboard') }}
-            </x-responsive-nav-link>
-        </div>
+    <div class="flex flex-col justify-between flex-1 mt-2">
+        <nav class="space-y-2">
 
-        <!-- Responsive Settings Options -->
-        <div class="pt-4 pb-1 border-t border-gray-200">
-            <div class="px-4">
-                <div class="font-medium text-base text-gray-800">{{ Auth::user()->name }}</div>
-                <div class="font-medium text-sm text-gray-500">{{ Auth::user()->email }}</div>
-            </div>
+            <a href="{{ route('dashboard') }}"
+                class="flex items-center gap-3 px-4 py-3 text-sm font-medium transition-colors rounded-lg {{ request()->routeIs('dashboard') ? 'bg-indigo-600 text-white' : 'text-gray-300 hover:bg-gray-800 hover:text-white' }}">
+                <i class="fa-solid fa-chart-pie w-5"></i>
+                Dashboard
+            </a>
 
-            <div class="mt-3 space-y-1">
-                <x-responsive-nav-link :href="route('profile.edit')">
-                    {{ __('Profile') }}
-                </x-responsive-nav-link>
+            @if (Auth::user()->role === 'admin')
+                <div
+                    class="pt-4 mt-4 text-xs font-semibold tracking-wider text-gray-500 uppercase border-t border-gray-700">
+                    Master Data</div>
 
-                <!-- Authentication -->
-                <form method="POST" action="{{ route('logout') }}">
-                    @csrf
+                <a href="{{ route('buku.index') }}"
+                    class="flex items-center gap-3 px-4 py-3 text-sm font-medium transition-colors rounded-lg {{ request()->routeIs('buku.*') ? 'bg-indigo-600 text-white' : 'text-gray-300 hover:bg-gray-800 hover:text-white' }}">
+                    <i class="fa-solid fa-book w-5"></i>
+                    Kelola Buku
+                </a>
+            @endif
 
-                    <x-responsive-nav-link :href="route('logout')"
-                            onclick="event.preventDefault();
-                                        this.closest('form').submit();">
-                        {{ __('Log Out') }}
-                    </x-responsive-nav-link>
-                </form>
-            </div>
+            @if (Auth::user()->role === 'student')
+                <div
+                    class="pt-4 mt-4 text-xs font-semibold tracking-wider text-gray-500 uppercase border-t border-gray-700">
+                    Modul Belajar</div>
+
+                <a href="#"
+                    class="flex items-center gap-3 px-4 py-3 text-sm font-medium transition-colors rounded-lg text-gray-300 hover:bg-gray-800 hover:text-white">
+                    <i class="fa-solid fa-laptop-code w-5"></i>
+                    Mulai Simulasi
+                </a>
+                <a href="#"
+                    class="flex items-center gap-3 px-4 py-3 text-sm font-medium transition-colors rounded-lg text-gray-300 hover:bg-gray-800 hover:text-white">
+                    <i class="fa-solid fa-trophy w-5"></i>
+                    Progress Saya
+                </a>
+            @endif
+
+        </nav>
+
+        <div class="pt-4 mt-8 space-y-2 border-t border-gray-700">
+            <a href="{{ route('profile.edit') }}"
+                class="flex items-center gap-3 px-4 py-3 text-sm font-medium text-gray-300 transition-colors rounded-lg hover:bg-gray-800 hover:text-white">
+                <i class="fa-solid fa-user-gear w-5"></i>
+                Profile Setting
+            </a>
+
+            <form method="POST" action="{{ route('logout') }}">
+                @csrf
+                <button type="submit"
+                    class="flex items-center w-full gap-3 px-4 py-3 text-sm font-medium text-red-400 transition-colors rounded-lg hover:bg-red-500 hover:text-white">
+                    <i class="fa-solid fa-right-from-bracket w-5"></i>
+                    Log Out
+                </button>
+            </form>
         </div>
     </div>
 </nav>
