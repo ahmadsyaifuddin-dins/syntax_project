@@ -59,11 +59,18 @@
                     class="pt-4 mt-4 text-xs font-semibold tracking-wider text-gray-500 uppercase border-t border-gray-700">
                     Modul Belajar</div>
 
+                <a href="{{ route('belajar.tutorial') }}"
+                    class="flex items-center gap-3 px-4 py-3 text-sm font-medium transition-colors rounded-lg {{ request()->routeIs('belajar.tutorial') ? 'bg-indigo-600 text-white' : 'text-gray-300 hover:bg-gray-800 hover:text-white' }}">
+                    <i class="fa-solid fa-graduation-cap w-5"></i>
+                    Training Camp
+                </a>
+
                 <a href="{{ route('belajar.index') }}"
-                    class="flex items-center gap-3 px-4 py-3 text-sm font-medium transition-colors rounded-lg text-gray-300 hover:bg-gray-800 hover:text-white">
+                    class="flex items-center gap-3 px-4 py-3 text-sm font-medium transition-colors rounded-lg {{ request()->routeIs('belajar.index', 'belajar.workspace') ? 'bg-indigo-600 text-white' : 'text-gray-300 hover:bg-gray-800 hover:text-white' }}">
                     <i class="fa-solid fa-laptop-code w-5"></i>
                     Mulai Simulasi
                 </a>
+
                 <a href="#"
                     class="flex items-center gap-3 px-4 py-3 text-sm font-medium transition-colors rounded-lg text-gray-300 hover:bg-gray-800 hover:text-white">
                     <i class="fa-solid fa-trophy w-5"></i>

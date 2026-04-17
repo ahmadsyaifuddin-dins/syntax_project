@@ -10,6 +10,8 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+Route::get('/demo/tutorial', [BelajarController::class, 'demoTutorial'])->name('belajar.demo.tutorial');
+
 Route::get('/demo/{studi_kasus}', [BelajarController::class, 'demo'])->name('belajar.demo');
 
 // Middleware Authenticated (Harus Login)
@@ -37,6 +39,11 @@ Route::middleware(['auth', 'verified'])->group(function () {
     // ==========================================
     Route::middleware(['role:student,admin'])->prefix('belajar')->group(function () {
         Route::get('/dashboard', [BelajarController::class, 'index'])->name('belajar.index');
+
+        // 1. Rute statis di atas
+        Route::get('/tutorial', [BelajarController::class, 'tutorial'])->name('belajar.tutorial');
+
+        // 2. Rute dinamis di bawah
         Route::get('/workspace/{studi_kasus}', [BelajarController::class, 'workspace'])->name('belajar.workspace');
         Route::post('/workspace/{studi_kasus}/progress', [BelajarController::class, 'updateProgress'])->name('belajar.progress');
     });

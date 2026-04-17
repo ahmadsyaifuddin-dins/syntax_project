@@ -72,9 +72,9 @@
                     class="bg-indigo-600 text-white text-xl font-black py-4 px-8 border-4 border-black shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] hover:shadow-none hover:translate-x-2 hover:translate-y-2 transition-all uppercase tracking-widest">
                     <i class="fa-solid fa-play mr-2"></i> Start Mission
                 </a>
-                <a href="#how-it-works"
+                <a href="{{ route('belajar.demo.tutorial') }}"
                     class="bg-white text-black text-xl font-black py-4 px-8 border-4 border-black shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] hover:shadow-none hover:translate-x-2 hover:translate-y-2 transition-all uppercase tracking-widest">
-                    How to Play
+                    <i class="fa-solid fa-graduation-cap mr-2"></i> Training Camp
                 </a>
             </div>
         </div>

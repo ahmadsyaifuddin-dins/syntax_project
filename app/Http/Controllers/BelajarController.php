@@ -61,6 +61,71 @@ class BelajarController extends Controller
         return response()->json(['success' => false], 404);
     }
 
+    public function tutorial()
+    {
+        $materi = $this->getMateriDasar();
+        $isDemo = false;
+
+        return view('belajar.tutorial', compact('materi', 'isDemo'));
+    }
+
+    // Halaman Tutorial untuk Guest (Partial Access)
+    public function demoTutorial()
+    {
+        $materi = $this->getMateriDasar();
+        $isDemo = true;
+
+        // Gunakan view yang sama, nanti kita batasi di level UI
+        return view('belajar.tutorial', compact('materi', 'isDemo'));
+    }
+
+    // Kumpulan Materi Dasar PHP Native (Cheat Sheet)
+    private function getMateriDasar()
+    {
+        return [
+            [
+                'id' => 'koneksi',
+                'judul' => 'Koneksi Database',
+                'icon' => 'fa-plug',
+                'is_locked_for_guest' => false,
+                'penjelasan' => 'Sebelum melakukan CRUD, aplikasi PHP harus dihubungkan ke MySQL menggunakan <code>mysqli_connect()</code>. Variabel koneksi ini wajib di-include di setiap halaman yang butuh database.',
+                'kode' => "<?php\n// format: mysqli_connect(host, username, password, database);\n\$conn = mysqli_connect('localhost', 'root', '', 'nama_database');\n\nif (!\$conn) {\n    die('Koneksi Gagal: ' . mysqli_connect_error());\n}\necho 'Koneksi Berhasil!';\n?>",
+            ],
+            [
+                'id' => 'read',
+                'judul' => 'Read (SELECT)',
+                'icon' => 'fa-table-list',
+                'is_locked_for_guest' => false,
+                'penjelasan' => 'Menampilkan data menggunakan perintah <code>SELECT</code>. Hasil query ditangkap dengan <code>mysqli_query()</code>, lalu dipecah menjadi array menggunakan perulangan <code>while</code> dan <code>mysqli_fetch_assoc()</code>.',
+                'kode' => "<?php\n\$query = mysqli_query(\$conn, \"SELECT * FROM users ORDER BY id DESC\");\n\n// Looping data ke dalam tabel HTML\nwhile (\$row = mysqli_fetch_assoc(\$query)) {\n    echo \"<tr>\";\n    echo \"<td>\" . \$row['nama'] . \"</td>\";\n    echo \"<td>\" . \$row['email'] . \"</td>\";\n    echo \"</tr>\";\n}\n?>",
+            ],
+            [
+                'id' => 'create',
+                'judul' => 'Create (INSERT)',
+                'icon' => 'fa-plus',
+                'is_locked_for_guest' => true, // Kunci untuk Guest!
+                'penjelasan' => 'Menyimpan data baru. Data biasanya dikirim dari form HTML via method POST, ditangkap PHP dengan <code>$_POST</code>, lalu dieksekusi dengan perintah <code>INSERT INTO</code>.',
+                'kode' => "<?php\n// Tangkap data dari form input name=\"nama\"\n\$nama = \$_POST['nama'];\n\$email = \$_POST['email'];\n\n// Query Insert\n\$sql = \"INSERT INTO users (nama, email) VALUES ('\$nama', '\$email')\";\n\$eksekusi = mysqli_query(\$conn, \$sql);\n\nif (\$eksekusi) {\n    echo \"Data berhasil ditambahkan!\";\n}\n?>",
+            ],
+            [
+                'id' => 'update',
+                'judul' => 'Update (UPDATE)',
+                'icon' => 'fa-pen',
+                'is_locked_for_guest' => true,
+                'penjelasan' => 'Mengubah data. <b>WAJIB MENGGUNAKAN WHERE</b> agar tidak semua data ikut terubah. Biasanya ID dikirim via form tersembunyi (hidden input).',
+                'kode' => "<?php\n\$id = \$_POST['id'];\n\$nama_baru = \$_POST['nama'];\n\n// Query Update dengan WHERE\n\$sql = \"UPDATE users SET nama = '\$nama_baru' WHERE id = '\$id'\";\n\$eksekusi = mysqli_query(\$conn, \$sql);\n?>",
+            ],
+            [
+                'id' => 'delete',
+                'judul' => 'Delete (DELETE)',
+                'icon' => 'fa-trash',
+                'is_locked_for_guest' => true,
+                'penjelasan' => 'Menghapus data berdasarkan ID. Biasanya ID dikirim melalui URL dan ditangkap dengan metode <code>$_GET</code>.',
+                'kode' => "<?php\n// Tangkap ID dari URL (contoh: hapus.php?id=5)\n\$id = \$_GET['id'];\n\n// Query Delete\n\$sql = \"DELETE FROM users WHERE id = '\$id'\";\n\$eksekusi = mysqli_query(\$conn, \$sql);\n?>",
+            ],
+        ];
+    }
+
     // Kumpulan Materi & Step (Nanti bisa dipindah ke database kalau mau dinamis)
     // Kumpulan Materi & Step (Retro Game Themed Learning)
     private function getMateriPerpustakaan()
@@ -74,7 +139,7 @@ class BelajarController extends Controller
                         <span class="text-gray-500">// Struktur Dasar:</span><br>
                         $koneksi = mysqli_connect("host", "user", "password", "nama_db");
                     </div>
-                    <p class="text-xs text-gray-600 italic">*Jika pakai XAMPP, host selalu "localhost", user "root", dan password dikosongkan ("").</p>
+                    <p class="text-xs text-gray-600 italic">*Jika pakai Laragon/XAMPP, host selalu "localhost", user "root", dan password dikosongkan ("").</p>
                 ',
                 'instruksi' => 'Buat variabel $conn dan lakukan koneksi ke database "perpustakaan" dengan user "root" dan password "".',
                 'kode_harapan' => '$conn = mysqli_connect("localhost", "root", "", "perpustakaan");',
