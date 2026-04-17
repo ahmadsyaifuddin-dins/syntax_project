@@ -59,7 +59,7 @@
                     class="pt-4 mt-4 text-xs font-semibold tracking-wider text-gray-500 uppercase border-t border-gray-700">
                     Modul Belajar</div>
 
-                <a href="#"
+                <a href="{{ route('belajar.index') }}"
                     class="flex items-center gap-3 px-4 py-3 text-sm font-medium transition-colors rounded-lg text-gray-300 hover:bg-gray-800 hover:text-white">
                     <i class="fa-solid fa-laptop-code w-5"></i>
                     Mulai Simulasi
