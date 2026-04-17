@@ -84,6 +84,24 @@ class BelajarController extends Controller
     {
         return [
             [
+                'id' => 'database',
+                'judul' => 'Setup Database (SQL)',
+                'icon' => 'fa-database',
+                'is_locked_for_guest' => false,
+                'penjelasan' => 'Sebelum mulai ngoding PHP, kita wajib membuat database dan tabelnya terlebih dahulu. Kamu bisa mengeksekusi sintaks SQL ini di menu <kbd class="bg-gray-800 text-white px-1 rounded">SQL</kbd> pada phpMyAdmin.',
+                'kode' => "-- 1. Buat Database\nCREATE DATABASE perpustakaan;\nUSE perpustakaan;\n\n-- 2. Buat Tabel Buku\nCREATE TABLE buku (\n    id INT AUTO_INCREMENT PRIMARY KEY,\n    judul VARCHAR(255) NOT NULL,\n    penulis VARCHAR(255) NOT NULL,\n    tahun_terbit INT(4) NOT NULL,\n    stok INT DEFAULT 0\n);",
+            ],
+
+            [
+                'id' => 'html_ui',
+                'judul' => 'Basic HTML Form (UI)',
+                'icon' => 'fa-file-code',
+                'is_locked_for_guest' => false,
+                'penjelasan' => 'PHP Native bertugas memproses data, tapi kita butuh HTML untuk membuat tampilannya. Perhatikan atribut <code>name="..."</code> pada input, ini harus sama persis dengan yang ditangkap oleh <code>$_POST[\'...\']</code> di file PHP nanti.',
+                'kode' => "<!DOCTYPE html>\n<html>\n<head>\n    <title>Form Tambah Buku</title>\n</head>\n<body>\n\n    <h2>Form Tambah Buku</h2>\n    \n    <form action=\"simpan.php\" method=\"POST\">\n        \n        <label>Judul Buku:</label><br>\n        <input type=\"text\" name=\"judul\" required><br><br>\n\n        <label>Penulis:</label><br>\n        <input type=\"text\" name=\"penulis\" required><br><br>\n\n        <label>Tahun Terbit:</label><br>\n        <input type=\"number\" name=\"tahun_terbit\" required><br><br>\n\n        <label>Stok:</label><br>\n        <input type=\"number\" name=\"stok\" required><br><br>\n\n        <button type=\"submit\">Simpan Data</button>\n\n    </form>\n\n</body>\n</html>",
+            ],
+
+            [
                 'id' => 'koneksi',
                 'judul' => 'Koneksi Database',
                 'icon' => 'fa-plug',

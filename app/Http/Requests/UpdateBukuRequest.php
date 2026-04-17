@@ -20,7 +20,7 @@ class UpdateBukuRequest extends FormRequest
             'penerbit' => 'required|string|max:255',
             'tahun_terbit' => 'required|digits:4|integer',
             'stok' => 'required|integer|min:0',
-            'harga_denda' => 'required|integer|min:0',
+            'harga_denda' => 'nullable|integer|min:0',
             'sinopsis' => 'nullable|string',
 
             // Tetap nullable saat update

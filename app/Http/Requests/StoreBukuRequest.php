@@ -20,7 +20,7 @@ class StoreBukuRequest extends FormRequest
             'penerbit' => 'required|string|max:255',
             'tahun_terbit' => 'required|digits:4|integer|min:1900|max:'.(date('Y') + 1),
             'stok' => 'required|integer|min:0',
-            'harga_denda' => 'required|integer|min:0',
+            'harga_denda' => 'nullable|integer|min:0',
             'sinopsis' => 'nullable|string',
 
             // Validasi File (Cover & Dokumen)

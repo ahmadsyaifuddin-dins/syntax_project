@@ -64,9 +64,8 @@
     </div>
 
     <div>
-        <x-forms.label value="Harga Denda (Per Hari)" required />
-        <x-forms.input-currency name="harga_denda" value="{{ old('harga_denda', $buku->harga_denda ?? 0) }}"
-            required />
+        <x-forms.label value="Harga Denda (Per Hari)" />
+        <x-forms.input-currency name="harga_denda" value="{{ old('harga_denda', $buku->harga_denda ?? 0) }}" />
         @error('harga_denda')
             <span class="text-sm text-red-500 mt-1">{{ $message }}</span>
         @enderror
