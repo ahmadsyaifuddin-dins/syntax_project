@@ -108,7 +108,7 @@
 
     // Handle highlight manual karena highlight.js butuh DOM siap
     function updateHighlight(code, el) {
-        el.textContent = '<?php' + code;
+        el.textContent = '<?php\n\n' + code;
         el.removeAttribute('data-highlighted');
         hljs.highlightElement(el);
     }
