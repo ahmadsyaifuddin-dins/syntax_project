@@ -9,7 +9,7 @@
         </div>
     </div>
 
-    <div class="bg-gray-900 border-4 border-black shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] flex flex-col flex-1">
+    <div class="bg-gray-900 border-4 border-black shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] flex flex-col flex-1 relative">
         <div
             class="bg-black text-gray-300 p-2 text-xs font-bold border-b-4 border-black flex justify-between items-center shrink-0">
             <span x-text="activeFile"></span>
